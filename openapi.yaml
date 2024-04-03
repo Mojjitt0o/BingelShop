@@ -103,7 +103,7 @@ paths:
             properties:
               name:
                 type: string
-                example: Tom Haye
+                example: Jay Idzes
               address:
                 type: string
                 example: 123 Main Street
