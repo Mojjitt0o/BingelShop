@@ -1,0 +1,340 @@
+swagger: '2.0'
+info:
+  title: BingleShop-Team1
+  version: 1.0.0
+paths:
+  /login:
+    post:
+      summary: Endpoint untuk login pengguna
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                example: example@example.com
+              password:
+                type: string
+                example: password123
+      responses:
+        200:
+          description: Login berhasil
+        422:
+          description: Gagal login karena email salah atau password tidak cocok
+  /register:
+    post:
+      summary: Endpoint untuk registrasi pengguna baru
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Tom Haye
+              address:
+                type: string
+                example: Surabaya
+              email:
+                type: string
+                example: example@example.com
+              password:
+                type: string
+                example: password123
+      responses:
+        201:
+          description: Registrasi berhasil
+  /users:
+    get:
+      summary: Mendapatkan daftar pengguna
+      responses:
+        200:
+          description: OK
+    post:
+      summary: Membuat pengguna baru
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Tom Haye
+              address:
+                type: string
+                example: Surabaya
+              email:
+                type: string
+                example: example@example.com
+              password:
+                type: string
+                example: password123
+      responses:
+        201:
+          description: Pengguna berhasil dibuat
+  /users/{id}:
+    put:
+      summary: Mengupdate pengguna berdasarkan ID
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Tom Haye
+              address:
+                type: string
+                example: 123 Main Street
+              email:
+                type: string
+                example: example@example.com
+              password:
+                type: string
+                example: password123
+      responses:
+        204:
+          description: Pengguna berhasil diupdate
+        404:
+          description: Pengguna tidak ditemukan
+    delete:
+      summary: Menghapus pengguna berdasarkan ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+      responses:
+        204:
+          description: Pengguna berhasil dihapus
+        404:
+          description: Pengguna tidak ditemukan
+  /items:
+    get:
+      summary: Mendapatkan daftar item
+      responses:
+        200:
+          description: OK
+    post:
+      summary: Membuat item baru
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Laptop
+              description:
+                type: string
+                example: Powerful laptop for gaming
+              image:
+                type: string
+                example: laptop.jpg
+              stock:
+                type: integer
+                example: 10
+              price:
+                type: integer
+                example: 1200
+      responses:
+        201:
+          description: Item berhasil dibuat
+  /items/{id}:
+    put:
+      summary: Mengupdate item berdasarkan ID
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Laptop
+              description:
+                type: string
+                example: Powerful laptop for gaming
+              image:
+                type: string
+                example: laptop.jpg
+              stock:
+                type: integer
+                example: 10
+              price:
+                type: integer
+                example: 1200
+      responses:
+        201:
+          description: Item berhasil diupdate
+        404:
+          description: Item tidak ditemukan
+    delete:
+      summary: Menghapus item berdasarkan ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+      responses:
+        204:
+          description: Item berhasil dihapus
+        404:
+          description: Item tidak ditemukan
+  /orders:
+    get:
+      summary: Mendapatkan daftar order
+      responses:
+        200:
+          description: OK
+    post:
+      summary: Membuat order baru
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              user_id:
+                type: integer
+                example: 1
+              item_id:
+                type: integer
+                example: 1
+              quantity:
+                type: integer
+                example: 2
+      responses:
+        201:
+          description: Order berhasil dibuat
+  /orders/{id}/update-status:
+    patch:
+      summary: Mengupdate status order berdasarkan ID
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: ['pending', 'success']
+                example: success
+      responses:
+        200:
+          description: Status order berhasil diupdate
+        404:
+          description: Order tidak ditemukan
+        422:
+          description: Status tidak valid
+
+         
+components:
+  schemas:
+    LoginRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+    RegisterRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+    UserRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+    ItemRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        stock:
+          type: integer
+        price:
+          type: integer
+    OrderRequestBody:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        item_id:
+          type: integer
+        quantity:
+          type: integer
+    UpdateOrderStatusRequestBody:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - pending
+            - success
